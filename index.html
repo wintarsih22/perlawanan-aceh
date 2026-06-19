@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perlawanan Aceh - Kelas 11 SMA</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            background-color: #1a1a24;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Container strictly fixed to 916x516 to match user constraint precisely */
+        .mockup-container {
+            width: 916px;
+            height: 516px;
+            background: linear-gradient(135deg, #222533 0%, #171821 100%);
+            border: 2px solid #3d425c;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Top Bar / Header */
+        .header {
+            height: 55px;
+            background: #2a2e45;
+            border-bottom: 2px solid #3d425c;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+        }
+
+        .header-title-area {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-title {
+            color: #ffd700;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .header-subtitle {
+            color: #b0b5c9;
+            font-size: 11px;
+            margin-top: 1px;
+        }
+
+        .header-meta {
+            text-align: right;
+            color: #a0a6be;
+            font-size: 11px;
+            line-height: 1.3;
+        }
+
+        .header-meta strong {
+            color: #ffffff;
+        }
+
+        /* Main Body Area Split Layout */
+        .main-layout {
+            display: flex;
+            flex: 1;
+            height: calc(516px - 55px - 25px); /* Subtract header and footer */
+            overflow: hidden;
+        }
+
+        /* Left Navigation Column */
+        .sidebar-nav {
+            width: 190px;
+            background: #1d1f2b;
+            border-right: 2px solid #3d425c;
+            padding: 12px 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav-btn {
+            background: #272a3a;
+            border: 1px solid #3d425c;
+            border-radius: 6px;
+            color: #cbd2e6;
+            padding: 10px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background: #34384e;
+            color: #ffffff;
+            border-color: #51587a;
+        }
+
+        .nav-btn.active {
+            background: #9d2235;
+            color: #ffffff;
+            border-color: #ff4d6a;
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.3);
+        }
+
+        .nav-btn span.icon {
+            font-size: 14px;
+            width: 18px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        /* Right Content Display Column */
+        .content-panel {
+            flex: 1;
+            padding: 16px;
+            background: #171821;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-content {
+            display: none;
+            height: 100%;
+            color: #e2e6f3;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        .tab-content.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-title {
+            font-size: 16px;
+            color: #ffffff;
+            margin-bottom: 12px;
+            font-weight: 600;
+            border-left: 4px solid #ffd700;
+            padding-left: 8px;
+            line-height: 1.2;
+        }
+
+        /* Specific styles for sections */
+        .text-block {
+            font-size: 12.5px;
+            line-height: 1.6;
+            color: #cbd2e6;
+        }
+
+        .text-block p {
+            margin-bottom: 10px;
+        }
+
+        .list-items {
+            margin-left: 18px;
+            margin-top: 6px;
+        }
+
+        .list-items li {
+            margin-bottom: 6px;
+            font-size: 12.5px;
+            line-height: 1.4;
+        }
+
+        .highlight-box {
+            background: rgba(157, 34, 53, 0.15);
+            border-left: 3px solid #9d2235;
+            padding: 8px 12px;
+            margin-top: 10px;
+            border-radius: 0 4px 4px 0;
+            font-style: italic;
+        }
+
+        /* Embed Iframe Area */
+        .iframe-container {
+            width: 100%;
+            height: 100%;
+            background: #0d0e14;
+            border: 1px dashed #4e5578;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Interactive Quiz Layout */
+        .quiz-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .question-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+            background: #232636;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #33384f;
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .option-item {
+            background: #20222f;
+            border: 1px solid #353a52;
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            color: #cbd2e6;
+        }
+
+        .option-item:hover {
+            background: #292c3d;
+            border-color: #4e5578;
+        }
+
+        .option-label {
+            font-weight: bold;
+            color: #ffd700;
+            margin-right: 10px;
+            background: #2d3145;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 11px;
+        }
+
+        /* Quiz Feedback States */
+        .option-item.correct {
+            background: rgba(38, 166, 154, 0.2) !important;
+            border-color: #26a69a !important;
+            color: #a7ffeb !important;
+        }
+        .option-item.correct .option-label {
+            background: #26a69a !important;
+            color: #fff !important;
+        }
+
+        .option-item.wrong {
+            background: rgba(239, 83, 80, 0.15) !important;
+            border-color: #ef5350 !important;
+            color: #ffebee !important;
+        }
+        .option-item.wrong .option-label {
+            background: #ef5350 !important;
+            color: #fff !important;
+        }
+
+        .feedback-message {
+            margin-top: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            min-height: 18px;
+            text-align: center;
+        }
+
+        /* Footer Line */
+        .footer {
+            height: 25px;
+            background: #12131a;
+            border-top: 1px solid #252836;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 12px;
+            font-size: 10px;
+            color: #626880;
+        }
+
+        .footer-brand {
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mockup-container">
+        
+        <div class="header">
+            <div class="header-title-area">
+                <span class="header-title">Perlawanan Aceh (Abad ke-19)</span>
+                <span class="header-subtitle">Materi Perlawanan Daerah Terhadap Penjajahan Bangsa Barat</span>
+            </div>
+            <div class="header-meta">
+                Fase F • Kelas 11 SMA<br>
+                Penyusun: <strong>Wintarsih, S.Pd., Gr., M.Hum</strong> (SMA Labschool Cirendeu)
+            </div>
+        </div>
+
+        <div class="main-layout">
+            
+            <div class="sidebar-nav">
+                <button class="nav-btn active" onclick="switchTab('tujuan')">
+                    <span class="icon">🎯</span> Tujuan Belajar
+                </button>
+                <button class="nav-btn" onclick="switchTab('teori')">
+                    <span class="icon">📖</span> Teori Singkat
+                </button>
+                <button class="nav-btn" onclick="switchTab('prosedur')">
+                    <span class="icon">📋</span> Prosedur Kerja
+                </button>
+                <button class="nav-btn" onclick="switchTab('simulasi')">
+                    <span class="icon">🌐</span> Simulasi 3D/AR
+                </button>
+                <button class="nav-btn" onclick="switchTab('evaluasi')">
+                    <span class="icon">📝</span> Evaluasi Mandiri
+                </button>
+            </div>
+
+            <div class="content-panel">
+                
+                <div id="tujuan" class="tab-content active">
+                    <h2 class="content-title">Tujuan Pembelajaran</h2>
+                    <div class="text-block">
+                        <p>Melalui alat peraga interaktif ini, Anda diharapkan mampu menguasai kompetensi berikut:</p>
+                        <ul class="list-items">
+                            <li><strong>Menganalisis</strong> latar belakang strategis meletusnya Perang Aceh terhadap kolonialisme Hindia Belanda.</li>
+                            <li><strong>Mengevaluasi</strong> taktik gerilya rakyat Aceh serta strategi <i>"Snouck Hurgronje"</i> yang digunakan Belanda untuk memecah belah pertahanan Aceh.</li>
+                            <li><strong>Meneladani</strong> nilai-nilai integritas, keteguhan visi, dan jiwa patriotisme para tokoh pejuang Kesultanan Aceh (seperti Sultan Iskandar Muda, Teuku Umar, dan Cut Nyak Dhien).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="teori" class="tab-content">
+                    <h2 class="content-title">Teori Singkat: Perang Aceh (1873 - 1904)</h2>
+                    <div class="text-block">
+                        <p>Perang Aceh merupakan salah satu palagan terlama dan terberat yang dialami kolonial Belanda. Berdasarkan Traktat Sumatra 1871, Belanda mendapat keleluasaan ekspansi di Sumatra, memicu perlawanan total rakyat Aceh yang dipicu semangat jihad fi sabilillah.</p>
+                        <p>Kunci ketangguhan Aceh terletak pada kuatnya integrasi antara kaum bangsawan (Teuku) dan kaum ulama (Tengku). Belanda baru dapat membalikkan keadaan setelah mengutus <strong>Dr. Snouck Hurgronje</strong> untuk menyamar dan memetakan kelemahan sosiologis masyarakat Aceh.</p>
+                        <div class="highlight-box">
+                            "Taktik Devide et Impera dimatangkan: Dekati kaum bangsawan, hancurkan garis logistik dan basis perlawanan kaum ulama radikal."
+                        </div>
+                    </div>
+                </div>
+
+                <div id="prosedur" class="tab-content">
+                    <h2 class="content-title">Prosedur Aktivitas Interaktif</h2>
+                    <div class="text-block">
+                        <p>Ikuti langkah-langhar pembelajaran berbasis media 3D/AR berikut ini:</p>
+                        <ol class="list-items" style="list-style-type: decimal;">
+                            <li>Pilih menu <strong>Simulasi 3D/AR</strong> pada panel navigasi kiri.</li>
+                            <li>Lakukan interaksi visual pada objek dengan melakukan <i>klik-tahan-geser</i> untuk memutar objek, atau gunakan roda mouse untuk memperbesar (zoom).</li>
+                            <li>Identifikasi titik-titik anotasi sejarah (marker pin) yang tersedia di dalam model untuk membaca ringkasan data historis penting.</li>
+                            <li>Jika perangkat Anda mendukung mode AR, pindai QR Code yang tertera pada proyek Assemblr untuk memproyeksikan visualisasi alat peraga langsung ke meja belajar Anda.</li>
+                            <li>Selesaikan tantangan pemahaman dengan menjawab pertanyaan di menu <strong>Evaluasi Mandiri</strong>.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div id="simulasi" class="tab-content">
+                    <h2 class="content-title">Media Alat Peraga Simulasi 3D / AR</h2>
+                    <div class="iframe-container">
+                        <iframe 
+                            src="https://viewer.assemblrworld.com/Embed/-43Hgw3s9xFEk9LErbaH" 
+                            allow="camera; microphone; gyroscope; accelerometer; magnetometer; xr-spatial-tracking; fullscreen" 
+                            allowFullScreen>
+                        </iframe>
+                    </div>
+                </div>
+
+                <div id="evaluasi" class="tab-content">
+                    <h2 class="content-title">Evaluasi Mandiri (Pilihan Ganda)</h2>
+                    <div class="quiz-container">
+                        <div class="question-text">
+                            Berdasarkan hasil riset sosiologis Dr. Snouck Hurgronje, strategi utama apa yang disarankan kepada pemerintah kolonial Belanda untuk meredam perlawanan rakyat Aceh secara permanen?
+                        </div>
+                        <div class="options-grid">
+                            <div class="option-item" onclick="checkAnswer(this, 'A')">
+                                <span class="option-label">A</span> Melakukan blokade ekonomi total di seluruh pelabuhan Selat Malaka.
+                            </div>
+                            <div class="option-item" onclick="checkAnswer(this, 'B')">
+                                <span class="option-label">B</span> Memecah pengaruh kaum ulama (Tengku) dengan merangkul kaum bangsawan (Teuku).
+                            </div>
+                            <div class="option-item" onclick="checkAnswer(this, 'C')">
+                                <span class="option-label">C</span> Menyerahkan kedaulatan penuh kota benteng kepada Kesultanan Ottoman Turki.
+                            </div>
+                            <div class="option-item" onclick="checkAnswer(this, 'D')">
+                                <span class="option-label">D</span> Menarik mundur pasukan serdadu KNIL dari wilayah pedalaman Aceh.
+                            </div>
+                            <div class="option-item" onclick="checkAnswer(this, 'E')">
+                                <span class="option-label">E</span> Mengangkat tokoh pejuang lokal secara langsung menjadi Gubernur Jenderal baru.
+                            </div>
+                        </div>
+                        <div class="feedback-message" id="quiz-feedback"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="footer">
+            <span class="footer-brand">Aplikasi Multimedia Interaktif Sejarah SMA Kelas XI</span>
+            <span>Hak Cipta © 2026 — SMA Labschool Cirendeu</span>
+        </div>
+
+    </div>
+
+    <script>
+        function switchTab(tabId) {
+            // Remove active classes from all tabs and content
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Add active class to selected tab and match button
+            const selectedContent = document.getElementById(tabId);
+            if(selectedContent) selectedContent.classList.add('active');
+            
+            // Highlight the clicked nav button
+            event.currentTarget.classList.add('active');
+        }
+
+        function checkAnswer(element, option) {
+            // Reset visual state of all options in the active panel
+            document.querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('correct', 'wrong');
+            });
+
+            const feedback = document.getElementById('quiz-feedback');
+            
+            // Option 'B' is the correct answer
+            if (option === 'B') {
+                element.classList.add('correct');
+                feedback.innerHTML = "✨ BENAR! Snouck Hurgronje merekomendasikan pemisahan kekuatan politik Ulamâ dan Bangsawan.";
+                feedback.style.color = "#26a69a";
+            } else {
+                element.classList.add('wrong');
+                feedback.innerHTML = "❌ KURANG TEPAT! Coba analisis kembali taktik pemecah belah internal.";
+                feedback.style.color = "#ef5350";
+                
+                // Highlight the correct answer automatically
+                document.querySelectorAll('.option-item').forEach(item => {
+                    if(item.innerText.trim().startsWith('B')) {
+                        item.classList.add('correct');
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
